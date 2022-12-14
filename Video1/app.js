@@ -1,28 +1,31 @@
-const http=require('http'); // import işlemi
+const http=require('http'); 
+// import işlemi
 
-http.createServer(); bu şeklilde bir server oluşturabiliyoruz.
-bu server  bir fonksiyona ihtiyaç duyar ve bu fonksiyon
-
-
-
-function rqListener(req,res){
-    //Request Listiner gelen requestleri dinlemek için
-}
-
-bu fonksiyon'un başka türlüde kullanabiliriz.
+http.createServer();
+ // bu şeklilde bir server oluşturabiliyoruz.
+// bu server  bir fonksiyona ihtiyaç duyar ve bu fonksiyon
 
 
-let server = http.createServer(function(req,res){}); gibi 
 
-let server = http.createServer((req,res)=>{}); gibi 
+// function rqListener(req,res){
+//     //Request Listiner gelen requestleri dinlemek için
+// }
+
+// bu fonksiyon'un başka türlüde kullanabiliriz.
 
 
-Şimdi bir server geliştirelim.
+// let server = http.createServer(function(req,res){}); gibi 
+
+// let server = http.createServer((req,res)=>{}); gibi 
+
+
+// Şimdi bir server geliştirelim.
 
 
 
 let server = http.createServer((req,res)=>{
     console.log(req)
+    process.exit();
 });  
 
 //Şimdi bunu Node app.js yazarak terminal üzerinden görmek isteyelim.

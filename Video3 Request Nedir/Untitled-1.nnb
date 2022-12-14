@@ -1,0 +1,158 @@
+{
+    "cells": [
+        {
+            "language": "javascript",
+            "source": [
+                "\nconst http=require('http'); // import işlemi"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "http.createServer();"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                " bu şeklilde bir server oluşturabiliyoruz."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "http.createServer(); bu şeklilde bir server oluşturabiliyoruz.\nbu server  bir fonksiyona ihtiyaç duyar ve bu fonksiyon\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "function rqListener(req,res){\n    //Request Listiner gelen requestleri dinlemek için\n}\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "bu fonksiyon'un başka türlüde kullanabiliriz.\n\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "let server = http.createServer(function(req,res){}); gibi \n\nlet server = http.createServer((req,res)=>{}); gibi \n\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi bir server geliştirelim."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "let server = http.createServer((req,res)=>{\n    console.log(req)\n});  \n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "server.listen(3000);"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi burada sunucumuzu ayağa kaldırdıkktan sonra console baktığımızda sunucu tarafından bize bazı fonksiyonları döndüdüğünü fark ederiz.  </br> Burada bilmemiz gereken tek konu bir kaç önemli konu var \n</br>\nŞimdi ilk olarak sunucu tarafında <b> node app.js </b> dediğimiz zaman\n</br>\nSunucu tarafında projemiz ayağa kalkıyor ve terminale baktığımız zaman pointer elementinin yanıp sönmediğini fark ediyoruz </br>\n yani sabit bir şekilde bekliyor bunun sebebi uygulamanın ayağa kalktığını ve durmadan dinleme moduna geçtiğini belirtmesi\n </br>   Buna <b> Node Event Loop   </b> deniyor.\n\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi bu Event Loop içinden çıkmayı deneyimleyelim."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Yapılan işlemlerde Nodejs üzerin çalıştırdığımız server'ı kapatmak bizim için hiçbir zaman tercih sebebi olmaz fakat eğer buna ihtiyaç duyarsak \n</br>\nYapmamız gereken işlem <b> process.exit() </b> komutunu kullanmak şimdi bunu simüle edelim."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "let server = http.createServer((req,res)=>{\n    console.log(req)\n    process.exit();\n});  "
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<h1> Request nedir ?</h1>\n\n<img src=\"https://miro.medium.com/max/978/1*aPioc7_2-6Xd0RyhRZ5dQQ.webp\"/>\n\nRequest’in sunucu tarafına giden mesaj formatıdır. Detaylı olarak incelersek;\n\nEn üst kısımın talep kısmı olduğunu görüyoruz. Yani istek mesajının hangi Metot ile gönderileceğini, URL bilgisini ve HTTP Versiyon bilgisinin olduğu alanlar mevcut\n\nDaha sonra başlık bilgisinin yer aldığı bir alan.\n\nVe son olarak mesajın bir içeriği varsa, mesaj bilgisinin Body kısmında yer aldığı alanlar mevcut."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "HTTP Versiyon bilgisi;\nHTTP/0.9 ve /1.0 versiyonlarında, bağlantı tek bir “Request-Response” aşaması yaşadıktan sonra kapanır. HTTP/1.1 ile beraber “keep-alive” başlığı ile bağlantılar bir süre kalıcı hale getirilebilir ve istemci sunucuya yolladığı ilk istek-cevap döngüsünden sonra tekrar TCP bağlantısını açmak, onaylatmak zorunda kalmaz.\n\nHTTP Başlık bilgileri nelerdir?\nHTTP başlıkları, istemci ve sunucunun istek veya tepki (request-response) mesajı ile birlikte bize bağlantı hakkında ek bilgiler iletmesini sağlar.\n\nBaşlık bilgileri uzun olduğu için bu Blog içerisine yazamayacağım, onun için direkt olarak bu adresten yarı İngilizce yarı Türkçe olan kaynaktan başlık bilgilerine bakabilirsiniz.\nLink: https://developer.mozilla.org/tr/docs/Web/HTTP/Headers\n\nPeki Nedir bu Request mesajı ve Metotları?\nRequest’ istemci tarafından sunucu tarafına tam olarak Web sitesi ilgili ne yapacağımızı bildirdiğimiz bir mesajdır. En basitinden Twitter’da yeni kullanıcı oluştururken veya Twitter’a giriş yaparken sunucudan bir istekte bulunmuş olursunuz. Bu isteğin durumu, metotlara göre değişmektedir;\n\nHTTP/1.0 versiyonu sadece;\nGET, POST ve HEAD Metotlarını destekler.\nHTTP/1.1 versiyonunda;\nGET, POST, HEAD, PUT, DELETE Metotları bulunmaktadır.\n\n( Ek olarak; CONNECT, OPTIONS, TRACE, PATCH metotları da bulunmaktadır.)</br>\n<b>\nGET; Bu metot sunucudan veri almak için kullanılır. </br>\nGET metotu ile sorgu metinleri URL içinde gönderilebilir.</br>\nGüvenlik açısından URL’in ekran görüntüleniyor olması ve yaptığınız GET isteğin sunucu kayıtlarına iz bırakabildiği için, parametrelerin gizlilik ihtiyacı varsa POST metodu kullanılabilir.\nKarakter Limiti vardır. (2048 Karakter) </br>\n</b>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<b>\n\nPOST; Bu metot ile sunucu üzerine bir veri yazdırılabilir.</br>\nBu istek parametreleri, body (gövde) kısmında gönderir. URL’da görünmez, sunucu kayıtlarına işlemez.</br>\nKullanıcı bilgileri veya nispeten büyük veriler bu metotla gönderiler.</br>\nKarakter Limiti yoktur.\n</b>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi biz console.log(req) yaptığımız zaman karşımıza bir çok alan çıkıyor bu alanlar bizim için çok gereksiz. </br>\nBizim ihtiyacımız olan bir kaç adet fonksiyon var bunlar <b> url,method ve headers </b> </br>\nBu 3 dosyanının ne işe yaradığı basitçe söyle açıklanabilir"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "let server = http.createServer((req,res)=>{\n    console.log(req.url,req.headers,req.method)\n    // process.exit();\n});  \n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi Burada \n<ul>\n<li> Method get yada post olma durumunu gönderirir Bizim durumumuzda burası <b> /</b> çünkü localhost:3000 ile giriş yapıyoruz eğer localhost:300/test yaparsak test döner </li>\n<li> Header içine yolladığımız bilgilerin olduğu alana Authantication vs . </li>\n<li> Url ise erişilen Url için kullanılır. </li>\n</ul>\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        }
+    ]
+}

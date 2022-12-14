@@ -22,8 +22,8 @@ const http=require('http'); // import işlemi
 
 
 let server = http.createServer((req,res)=>{
-    console.log(req)
-    process.exit();
+    console.log(req.url,req.headers,req.method)
+    // process.exit();
 });  
 
 //Şimdi bunu Node app.js yazarak terminal üzerinden görmek isteyelim.
