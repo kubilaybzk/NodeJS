@@ -1,0 +1,102 @@
+{
+    "cells": [
+        {
+            "language": "javascript",
+            "source": [
+                "\nconst http=require('http'); // import işlemi"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "http.createServer();"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                " bu şeklilde bir server oluşturabiliyoruz."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "http.createServer(); bu şeklilde bir server oluşturabiliyoruz.\nbu server  bir fonksiyona ihtiyaç duyar ve bu fonksiyon\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "function rqListener(req,res){\n    //Request Listiner gelen requestleri dinlemek için\n}\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "bu fonksiyon'un başka türlüde kullanabiliriz.\n\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "let server = http.createServer(function(req,res){}); gibi \n\nlet server = http.createServer((req,res)=>{}); gibi \n\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi bir server geliştirelim."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "let server = http.createServer((req,res)=>{\n    console.log(req)\n});  \n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "server.listen(3000);"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi burada sunucumuzu ayağa kaldırdıkktan sonra console baktığımızda sunucu tarafından bize bazı fonksiyonları döndüdüğünü fark ederiz.  </br> Burada bilmemiz gereken tek konu bir kaç önemli konu var \n</br>\nŞimdi ilk olarak sunucu tarafında <b> node app.js </b> dediğimiz zaman\n</br>\nSunucu tarafında projemiz ayağa kalkıyor ve terminale baktığımız zaman pointer elementinin yanıp sönmediğini fark ediyoruz </br>\n yani sabit bir şekilde bekliyor bunun sebebi uygulamanın ayağa kalktığını ve durmadan dinleme moduna geçtiğini belirtmesi\n </br>   Buna <b> Node Life Cycle  </b> deniyor.\n\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        }
+    ]
+}
