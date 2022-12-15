@@ -227,7 +227,7 @@
         {
             "language": "markdown",
             "source": [
-                "Kodumuzun son hali ekteki gibi olacaktır ve alacağımız çıktı\n\n<img src=\"./ss.png\"/>\n"
+                "Kodumuzun son hali ekteki gibi olacaktır ve alacağımız çıktı\n\n<img src=\"./images/ss.png\"/>\n"
             ],
             "outputs": []
         },
@@ -241,7 +241,7 @@
         {
             "language": "markdown",
             "source": [
-                "Yukarıda Content Type Json olan bir res yolladık . <br>\nElde edeceğimiz çıktı <br>\n<img src=\"./json.png\"/>"
+                "Yukarıda Content Type Json olan bir res yolladık . <br>\nElde edeceğimiz çıktı <br>\n<img src=\"./images/json.png\"/>"
             ],
             "outputs": []
         },
@@ -372,7 +372,7 @@
         {
             "language": "markdown",
             "source": [
-                "<img src=\"./DeveloperV5-1.png\"/>\n<img src=\"./DeveloperV5-2.png\"/>"
+                "<img src=\"./images/DeveloperV5-1.png\"/>\n<img src=\"./images/DeveloperV5-2.png\"/>"
             ],
             "outputs": []
         },
@@ -401,6 +401,150 @@
             "language": "markdown",
             "source": [
                 "Şimdi burada amacımız şu 302 kodu redirect yaptığımızı belirtir. <br>\nset.Header();   ==> burada ise redirect edilecek url belirtiliyor."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<h1>Gelen Veriyi Alma ve Kullanma </h1>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi yukarıda bize gelen verileri her istekte aynı txt dosyasını oluşturuyorduk. <br>\nBunu şimdi input alanına girilen değere göre yapmayı öğreneceğiz.<br>\nBurada bilmemiz gereken ilk durum <strong>res.data</strong> diye bir şeyin olmadığıdır."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Gelen Veriler temelde bir veri akışı olarak javascript'in özel bir yapısı ile gönderilir.  <br>\n<h4> Streams & Buffer  </h4>\n\n<b> Streams</b> <br>\nStream, büyük boyutlu bir veriyi bir yerden başka bir yere transfer ederken bütün olarak değil de parça parça transfer edilmesini sağlayan yayın ya da akış şeklinde tarif edilebilen bir kavramdır. Bu yapının işlevine en güzel örneği youtube olarak verebiliriz. İlgili platformda izlenen herhangi bir videonun tam olarak yüklenmesine gerek duyulmaksızın parça parça transfer sağlanmakta ve onlarca boyuttaki video bu şekilde bekleme olmaksızın rahatça izlenmektedir. Bizler izledikçe videonun akışı devam etmekte ve geri kalan verileride zamanla bilgisayarımıza indirilmektedir."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<b>Buffer</b>\nBasitçe parçalanmış verilerin code haline geçtiğini düşünelim burada .<br>\nÖrneğin 10mb bir text dosyamızın oldugunu düşünelim bir istek geldigi zaman tek seferde 10m dosyayı okumak ram’i yoracaktır ve isteğin bir değil birden fazla oldugunu düşünürsek örneğin 100 istek 100*10 mb şeklinde oldugunu düşünürsek ortaya biraz kaos çıkabilir. İşte bu gibi işlemler için veriyi buffer şeklinde okuyup okundukça göndermek isteyebiliriz, okuduğumuz verileri client tarafına bir socket ile beraber gönderebilir yada çeşitli işlemler yapabiliriz. Şimdi bir örnek yaparak işe koyulalım"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "const body = [];\nreq.on('data', (chunk) => {\n    console.log(\"first\",chunk);\n    body.push(chunk);\n  });"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Yukarıda belirttiğim kod bizim için bir byte okuma kısmı başlatır veriler tek tek burada okunur ve okunan verileri <br> bir Array içine atıyoruz.\nBu Array her yeni bilgi geldiğinde yada basitçe şöyle anlatayım her bir video parçası geldiğinde o parçayı işleme alan alan diyebiliriz."
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.error",
+                            "value": {
+                                "name": "ReferenceError",
+                                "message": "Yukarıda is not defined",
+                                "stack": "    at <Cell 61> [1, 0]\n    at <Cell 61> [24, 46]\n    at Script.runInContext (node:vm:141:12)\n    at Script.runInNewContext (node:vm:146:17)\n    at Object.runInNewContext (node:vm:306:38)\n    at C (/Users/kubilaybozak/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:113345)\n    at t.execCode (/Users/kubilaybozak/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:114312)\n    at k.<anonymous> (/Users/kubilaybozak/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:142156)\n    at k.emit (node:events:513:28)\n    at k.emit (node:domain:489:12)"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "req.on('end', () => {\n    const parsedBody = Buffer.concat(body).toString();\n    console.log(parsedBody);\n    const message = parsedBody.split('=')[1];\n    console.log(message);\n    fs.writeFileSync('message.txt', message);\n  });"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Yukarıda belirttiğim kod bizim için verinin stringe convert edildiği işlemelerin gerçekleştiği alan <br>\nilgili buffer string’e çevirerek metinlerimizi görebiliriz. Tam bu noktada veri okunurken örnek olması açısından okunan her veriyi socket ile istemciye gönderip ekrana basabiliriz.\n\n"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.error",
+                            "value": {
+                                "name": "ReferenceError",
+                                "message": "Yukarıda is not defined",
+                                "stack": "    at <Cell 61> [1, 0]\n    at <Cell 61> [24, 46]\n    at Script.runInContext (node:vm:141:12)\n    at Script.runInNewContext (node:vm:146:17)\n    at Object.runInNewContext (node:vm:306:38)\n    at C (/Users/kubilaybozak/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:113345)\n    at t.execCode (/Users/kubilaybozak/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:114312)\n    at k.<anonymous> (/Users/kubilaybozak/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:142156)\n    at k.emit (node:events:513:28)\n    at k.emit (node:domain:489:12)"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi buraya kadar verimizi okuduk fakat verinin yüzde kaçını okuduk ki ? Diye soru sordugumuzda ise aşağıdaki gibi küçük bir işlem yapıyoruz. <h5>Ekstra </h5>\nhttps://yasinefemdalkilic.medium.com/nodejs-stream-a77c7df49907\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "const fs = require('fs')\nconst stream = fs.createReadStream(\"test.txt\")\nfs.stat(\"test.txt\", (err, data) => {\nconsole.log('size', data.size)\nconst size = data.size;\nlet chunkSize = 0;\nstream.on('data', (chunk) => {\n//console.log('okunan byte', chunk.length)\n//console.log('chunk', chunk.toString())\nchunkSize += chunk.length;\nconsole.log('percent', Math.round(chunkSize * 100 / size))\n})})\nstream.on('end', () => {\nconsole.log('veri okuma işlemi bitti')\n})"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<h4>Node JS'nin arka planı</h4>\n"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.error",
+                            "value": {
+                                "name": "Error",
+                                "message": "Failed to generate code object, \nundefined\n^\n\nUnterminated string constant",
+                                "stack": ""
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "NodeJS single bir Thread kullanır <br>\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Thread nedir ? <br>\nBir process’in birden fazla işi aynı anda yapmasını sağlayan yapılara thread denir. Bir process bünyesinde bir ya da birden fazla thread barındırabilir. Thread’ler aynı anda sadece tek bir iş yapabilir. Kısaca N adet thread N adet iş yapabilir diyebiliriz. Thread’ler aynı zamanda ligth-weight process (hafif siklet proses) olarak da nitelendirilebilir. Thread kavramı Türkçe’deki en uygun karşılığı iş parçacıklarıdır."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Multi-threading ve parallel programming kavramlarına da yeri gelmişken birer cümle ile yer verelim.\nBir process içerisinde birden fazla thread çalıştırılmasına multi-threading diyoruz.\n\nThread’ler çok çekirdekli işlemcilerde farklı çekirdeklerde eş zamanlı olarak çalıştırılabilirler. Buna yaklaşıma da parallel programming diyoruz"
             ],
             "outputs": []
         },
