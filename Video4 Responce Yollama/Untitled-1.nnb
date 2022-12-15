@@ -1,0 +1,270 @@
+{
+    "cells": [
+        {
+            "language": "javascript",
+            "source": [
+                "\nconst http=require('http'); // import işlemi"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "http.createServer();"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                " bu şeklilde bir server oluşturabiliyoruz."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "http.createServer(); bu şeklilde bir server oluşturabiliyoruz.\nbu server  bir fonksiyona ihtiyaç duyar ve bu fonksiyon\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "function rqListener(req,res){\n    //Request Listiner gelen requestleri dinlemek için\n}\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "bu fonksiyon'un başka türlüde kullanabiliriz.\n\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "let server = http.createServer(function(req,res){}); gibi \n\nlet server = http.createServer((req,res)=>{}); gibi \n\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi bir server geliştirelim."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "let server = http.createServer((req,res)=>{\n    console.log(req)\n});  \n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "server.listen(3000);"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi burada sunucumuzu ayağa kaldırdıkktan sonra console baktığımızda sunucu tarafından bize bazı fonksiyonları döndüdüğünü fark ederiz.  </br> Burada bilmemiz gereken tek konu bir kaç önemli konu var \n</br>\nŞimdi ilk olarak sunucu tarafında <b> node app.js </b> dediğimiz zaman\n</br>\nSunucu tarafında projemiz ayağa kalkıyor ve terminale baktığımız zaman pointer elementinin yanıp sönmediğini fark ediyoruz </br>\n yani sabit bir şekilde bekliyor bunun sebebi uygulamanın ayağa kalktığını ve durmadan dinleme moduna geçtiğini belirtmesi\n </br>   Buna <b> Node Event Loop   </b> deniyor.\n\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi bu Event Loop içinden çıkmayı deneyimleyelim."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Yapılan işlemlerde Nodejs üzerin çalıştırdığımız server'ı kapatmak bizim için hiçbir zaman tercih sebebi olmaz fakat eğer buna ihtiyaç duyarsak \n</br>\nYapmamız gereken işlem <b> process.exit() </b> komutunu kullanmak şimdi bunu simüle edelim."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "let server = http.createServer((req,res)=>{\n    console.log(req)\n    process.exit();\n});  "
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<h1> Request nedir ?</h1>\n\n<img src=\"https://miro.medium.com/max/978/1*aPioc7_2-6Xd0RyhRZ5dQQ.webp\"/>\n\nRequest’in sunucu tarafına giden mesaj formatıdır. Detaylı olarak incelersek;\n\nEn üst kısımın talep kısmı olduğunu görüyoruz. Yani istek mesajının hangi Metot ile gönderileceğini, URL bilgisini ve HTTP Versiyon bilgisinin olduğu alanlar mevcut\n\nDaha sonra başlık bilgisinin yer aldığı bir alan.\n\nVe son olarak mesajın bir içeriği varsa, mesaj bilgisinin Body kısmında yer aldığı alanlar mevcut."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "HTTP Versiyon bilgisi;\nHTTP/0.9 ve /1.0 versiyonlarında, bağlantı tek bir “Request-Response” aşaması yaşadıktan sonra kapanır. HTTP/1.1 ile beraber “keep-alive” başlığı ile bağlantılar bir süre kalıcı hale getirilebilir ve istemci sunucuya yolladığı ilk istek-cevap döngüsünden sonra tekrar TCP bağlantısını açmak, onaylatmak zorunda kalmaz.\n\nHTTP Başlık bilgileri nelerdir?\nHTTP başlıkları, istemci ve sunucunun istek veya tepki (request-response) mesajı ile birlikte bize bağlantı hakkında ek bilgiler iletmesini sağlar.\n\nBaşlık bilgileri uzun olduğu için bu Blog içerisine yazamayacağım, onun için direkt olarak bu adresten yarı İngilizce yarı Türkçe olan kaynaktan başlık bilgilerine bakabilirsiniz.\nLink: https://developer.mozilla.org/tr/docs/Web/HTTP/Headers\n\nPeki Nedir bu Request mesajı ve Metotları?\nRequest’ istemci tarafından sunucu tarafına tam olarak Web sitesi ilgili ne yapacağımızı bildirdiğimiz bir mesajdır. En basitinden Twitter’da yeni kullanıcı oluştururken veya Twitter’a giriş yaparken sunucudan bir istekte bulunmuş olursunuz. Bu isteğin durumu, metotlara göre değişmektedir;\n\nHTTP/1.0 versiyonu sadece;\nGET, POST ve HEAD Metotlarını destekler.\nHTTP/1.1 versiyonunda;\nGET, POST, HEAD, PUT, DELETE Metotları bulunmaktadır.\n\n( Ek olarak; CONNECT, OPTIONS, TRACE, PATCH metotları da bulunmaktadır.)</br>\n<b>\nGET; Bu metot sunucudan veri almak için kullanılır. </br>\nGET metotu ile sorgu metinleri URL içinde gönderilebilir.</br>\nGüvenlik açısından URL’in ekran görüntüleniyor olması ve yaptığınız GET isteğin sunucu kayıtlarına iz bırakabildiği için, parametrelerin gizlilik ihtiyacı varsa POST metodu kullanılabilir.\nKarakter Limiti vardır. (2048 Karakter) </br>\n</b>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<b>\n\nPOST; Bu metot ile sunucu üzerine bir veri yazdırılabilir.</br>\nBu istek parametreleri, body (gövde) kısmında gönderir. URL’da görünmez, sunucu kayıtlarına işlemez.</br>\nKullanıcı bilgileri veya nispeten büyük veriler bu metotla gönderiler.</br>\nKarakter Limiti yoktur.\n</b>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi biz console.log(req) yaptığımız zaman karşımıza bir çok alan çıkıyor bu alanlar bizim için çok gereksiz. </br>\nBizim ihtiyacımız olan bir kaç adet fonksiyon var bunlar <b> url,method ve headers </b> </br>\nBu 3 dosyanının ne işe yaradığı basitçe söyle açıklanabilir"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "let server = http.createServer((req,res)=>{\n    console.log(req.url,req.headers,req.method)\n    // process.exit();\n});  \n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi Burada \n<ul>\n<li> Method get yada post olma durumunu gönderirir Bizim durumumuzda burası <b> /</b> çünkü localhost:3000 ile giriş yapıyoruz eğer localhost:300/test yaparsak test döner </li>\n<li> Header içine yolladığımız bilgilerin olduğu alana Authantication vs . </li>\n<li> Url ise erişilen Url için kullanılır. </li>\n</ul>\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<h2>Şimdi bir request nedir nasıl yollanır onu inceleyelim</h2>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Öncelikle Tahmin edeceğiniz gibi responce değerini yanı res değerini kullanacağımızı tahmin etmişsinizdir. </br>\nŞimdi burada yapmamız gereken şey öncelikte ne türde bir geri dönüş sağlayacağız onu belirtmek </br>\nNormal şartlarda tarayıcılar default olarak <b> text/html </b> olarak responce yollarlar. \nFakat bunu kendimizde ayarlayabiliriz.</br>\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi öncelikle Responce nasıl yollanır onu inceleyelim"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "const http = require(\"http\"); // import işlemi\n\nlet server = http.createServer((req, res) => {\n\n   // Normal bir şekilde Yapımızı oluşturalım daha sonra \n\n\n});\n\nserver.listen(3000);\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "res.setHeader('Content-Type','text/html');\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Yukarıdaki gibi bir Header Ayarlayarak Content-Type belirleyelim yani gidecek olan içerik ne tip olarak gidecek HTML JSON gibi bir çok seçeneğimiz var ama genel olarak Api bilgileri Json formatında yollanır. Buna bir örnek vermek mümkün fakat ilerleyen zamanlarda daha kolay yoldan hepsini inceleyeceğiz."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "res.write(\"<html>\");\nres.write(\"<head><title>Hello World </title> </head>\");\nres.write(\"<body> <h1> Hello World !! </h1> </body> \");\nres.write(\"</html>\");\n\n//Şeklinde içeriğimizi oluşturalım."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi burada önemli bir nokta var eğer bizim geliştireceğimiz uygulama durmadan sonuç göndersin istiyorsak yani mesela bu dataları aldık fakat hala işlem devam etsin istiyorsak bu şekilde bırakabiliriz fakat; <br>\n\nBurada şöyle bir durum söz konusu olabilir biz api aracılığı ile datamızı yolladıktan sonra daha sunucuyu yormak istemeyebiliriz (Genelde Tercih Edilcen durum budur.)"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "// Bu gibi durumlarda \n\nres.end();\n\n//Ekleyerek yüklenemeyi engelleyebiliriz.\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "const http = require(\"http\"); // import işlemi\n\nlet server = http.createServer((req, res) => {\n//   console.log(req.url, req.headers, req.method);\nres.setHeader('Content-Type','text/html');\nres.write(\"<html>\");\nres.write(\"<head><title>Hello World </title> </head>\");\nres.write(\"<body> <h1> Hello World !! </h1> </body> \");\nres.write(\"</html>\");\nres.end();\n\n});\n\nserver.listen(3000);\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Kodumuzun son hali ekteki gibi olacaktır ve alacağımız çıktı\n\n<img src=\"./ss.png\"/>\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "var http = require('http');\n\nvar app = http.createServer(function(req,res){\n    res.setHeader('Content-Type', 'application/json');\n    res.end(JSON.stringify({ a: 1 }));\n});\napp.listen(3000);"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Yukarıda Content Type Json olan bir res yolladık . <br>\nElde edeceğimiz çıktı <br>\n<img src=\"./json.png\"/>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "var http = require('http');\n\nvar app = http.createServer(function(req,res){\n    res.setHeader('Content-Type', 'application/json');\n    res.end(JSON.stringify([{ a: 1 }, {b: 2 },{c: 3 }]));\n\n});\napp.listen(3000);"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "// 20221215105613<br>\n// http://localhost:3000/<br>\n\n[<br>\n  {<br>\n    \"a\": 1<br>\n  },<br>\n  {<br>\n    \"a\": 2<br>\n  },<br>\n  {<br>\n    \"a\": 3<br>\n  }<br>\n]<br>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        }
+    ]
+}
