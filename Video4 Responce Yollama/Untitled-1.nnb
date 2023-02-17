@@ -222,7 +222,35 @@
             "source": [
                 "const http = require(\"http\"); // import işlemi\n\nlet server = http.createServer((req, res) => {\n//   console.log(req.url, req.headers, req.method);\nres.setHeader('Content-Type','text/html');\nres.write(\"<html>\");\nres.write(\"<head><title>Hello World </title> </head>\");\nres.write(\"<body> <h1> Hello World !! </h1> </body> \");\nres.write(\"</html>\");\nres.end();\n\n});\n\nserver.listen(3000);\n"
             ],
-            "outputs": []
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stderr",
+                            "value": [
+                                "Error: listen EADDRINUSE: address already in use :::3000",
+                                "    at Server.setupListenHandle [as _listen2] (node:net:1485:16)",
+                                "    at listenInCluster (node:net:1533:12)",
+                                "    at Server.listen (node:net:1621:7)",
+                                "    at <Cell 32> [14, 6]",
+                                "    at <Cell 32> [13, 46]",
+                                "    at Script.runInContext (node:vm:141:12)",
+                                "    at Script.runInNewContext (node:vm:146:17)",
+                                "    at Object.runInNewContext (node:vm:306:38)",
+                                "    at C (/Users/kubilaybozak/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:113345)",
+                                "    at t.execCode (/Users/kubilaybozak/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:114312) {",
+                                "  code: 'EADDRINUSE',",
+                                "  errno: -48,",
+                                "  syscall: 'listen',",
+                                "  address: '::',",
+                                "  port: 3000",
+                                "}",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
         },
         {
             "language": "markdown",

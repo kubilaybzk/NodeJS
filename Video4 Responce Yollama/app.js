@@ -1,8 +1,14 @@
-var http = require('http');
+const http = require("http"); // import işlemi
 
-var app = http.createServer(function(req,res){
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify([{ a: 1 }, {b: 2 },{c: 3 }]));
+let server = http.createServer((req, res) => {
+//   console.log(req.url, req.headers, req.method);
+res.setHeader('Content-Type','text/html');
+res.write("<html>");
+res.write("<head><title>Hello World </title> </head>");
+res.write("<body> <h1> Hello World1 !! </h1> </body> ");
+res.write("</html>");
+res.end();
 
 });
-app.listen(3000);
+
+server.listen(3000);

@@ -1,0 +1,559 @@
+{
+    "cells": [
+        {
+            "language": "javascript",
+            "source": [
+                "\nconst http=require('http'); // import işlemi"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "http.createServer();"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                " bu şeklilde bir server oluşturabiliyoruz."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "http.createServer(); bu şeklilde bir server oluşturabiliyoruz.\nbu server  bir fonksiyona ihtiyaç duyar ve bu fonksiyon\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "function rqListener(req,res){\n    //Request Listiner gelen requestleri dinlemek için\n}\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "bu fonksiyon'un başka türlüde kullanabiliriz.\n\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "let server = http.createServer(function(req,res){}); gibi \n\nlet server = http.createServer((req,res)=>{}); gibi \n\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi bir server geliştirelim."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "let server = http.createServer((req,res)=>{\n    console.log(req)\n});  \n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "server.listen(3000);"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi burada sunucumuzu ayağa kaldırdıkktan sonra console baktığımızda sunucu tarafından bize bazı fonksiyonları döndüdüğünü fark ederiz.  </br> Burada bilmemiz gereken tek konu bir kaç önemli konu var \n</br>\nŞimdi ilk olarak sunucu tarafında <b> node app.js </b> dediğimiz zaman\n</br>\nSunucu tarafında projemiz ayağa kalkıyor ve terminale baktığımız zaman pointer elementinin yanıp sönmediğini fark ediyoruz </br>\n yani sabit bir şekilde bekliyor bunun sebebi uygulamanın ayağa kalktığını ve durmadan dinleme moduna geçtiğini belirtmesi\n </br>   Buna <b> Node Event Loop   </b> deniyor.\n\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi bu Event Loop içinden çıkmayı deneyimleyelim."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Yapılan işlemlerde Nodejs üzerin çalıştırdığımız server'ı kapatmak bizim için hiçbir zaman tercih sebebi olmaz fakat eğer buna ihtiyaç duyarsak \n</br>\nYapmamız gereken işlem <b> process.exit() </b> komutunu kullanmak şimdi bunu simüle edelim."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "let server = http.createServer((req,res)=>{\n    console.log(req)\n    process.exit();\n});  "
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<h1> Request nedir ?</h1>\n\n<img src=\"https://miro.medium.com/max/978/1*aPioc7_2-6Xd0RyhRZ5dQQ.webp\"/>\n\nRequest’in sunucu tarafına giden mesaj formatıdır. Detaylı olarak incelersek;\n\nEn üst kısımın talep kısmı olduğunu görüyoruz. Yani istek mesajının hangi Metot ile gönderileceğini, URL bilgisini ve HTTP Versiyon bilgisinin olduğu alanlar mevcut\n\nDaha sonra başlık bilgisinin yer aldığı bir alan.\n\nVe son olarak mesajın bir içeriği varsa, mesaj bilgisinin Body kısmında yer aldığı alanlar mevcut."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "HTTP Versiyon bilgisi;\nHTTP/0.9 ve /1.0 versiyonlarında, bağlantı tek bir “Request-Response” aşaması yaşadıktan sonra kapanır. HTTP/1.1 ile beraber “keep-alive” başlığı ile bağlantılar bir süre kalıcı hale getirilebilir ve istemci sunucuya yolladığı ilk istek-cevap döngüsünden sonra tekrar TCP bağlantısını açmak, onaylatmak zorunda kalmaz.\n\nHTTP Başlık bilgileri nelerdir?\nHTTP başlıkları, istemci ve sunucunun istek veya tepki (request-response) mesajı ile birlikte bize bağlantı hakkında ek bilgiler iletmesini sağlar.\n\nBaşlık bilgileri uzun olduğu için bu Blog içerisine yazamayacağım, onun için direkt olarak bu adresten yarı İngilizce yarı Türkçe olan kaynaktan başlık bilgilerine bakabilirsiniz.\nLink: https://developer.mozilla.org/tr/docs/Web/HTTP/Headers\n\nPeki Nedir bu Request mesajı ve Metotları?\nRequest’ istemci tarafından sunucu tarafına tam olarak Web sitesi ilgili ne yapacağımızı bildirdiğimiz bir mesajdır. En basitinden Twitter’da yeni kullanıcı oluştururken veya Twitter’a giriş yaparken sunucudan bir istekte bulunmuş olursunuz. Bu isteğin durumu, metotlara göre değişmektedir;\n\nHTTP/1.0 versiyonu sadece;\nGET, POST ve HEAD Metotlarını destekler.\nHTTP/1.1 versiyonunda;\nGET, POST, HEAD, PUT, DELETE Metotları bulunmaktadır.\n\n( Ek olarak; CONNECT, OPTIONS, TRACE, PATCH metotları da bulunmaktadır.)</br>\n<b>\nGET; Bu metot sunucudan veri almak için kullanılır. </br>\nGET metotu ile sorgu metinleri URL içinde gönderilebilir.</br>\nGüvenlik açısından URL’in ekran görüntüleniyor olması ve yaptığınız GET isteğin sunucu kayıtlarına iz bırakabildiği için, parametrelerin gizlilik ihtiyacı varsa POST metodu kullanılabilir.\nKarakter Limiti vardır. (2048 Karakter) </br>\n</b>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<b>\n\nPOST; Bu metot ile sunucu üzerine bir veri yazdırılabilir.</br>\nBu istek parametreleri, body (gövde) kısmında gönderir. URL’da görünmez, sunucu kayıtlarına işlemez.</br>\nKullanıcı bilgileri veya nispeten büyük veriler bu metotla gönderiler.</br>\nKarakter Limiti yoktur.\n</b>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi biz console.log(req) yaptığımız zaman karşımıza bir çok alan çıkıyor bu alanlar bizim için çok gereksiz. </br>\nBizim ihtiyacımız olan bir kaç adet fonksiyon var bunlar <b> url,method ve headers </b> </br>\nBu 3 dosyanının ne işe yaradığı basitçe söyle açıklanabilir"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "let server = http.createServer((req,res)=>{\n    console.log(req.url,req.headers,req.method)\n    // process.exit();\n});  \n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi Burada \n<ul>\n<li> Method get yada post olma durumunu gönderirir Bizim durumumuzda burası <b> /</b> çünkü localhost:3000 ile giriş yapıyoruz eğer localhost:300/test yaparsak test döner </li>\n<li> Header içine yolladığımız bilgilerin olduğu alana Authantication vs . </li>\n<li> Url ise erişilen Url için kullanılır. </li>\n</ul>\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<h2>Şimdi bir request nedir nasıl yollanır onu inceleyelim</h2>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Öncelikle Tahmin edeceğiniz gibi responce değerini yanı res değerini kullanacağımızı tahmin etmişsinizdir. </br>\nŞimdi burada yapmamız gereken şey öncelikte ne türde bir geri dönüş sağlayacağız onu belirtmek </br>\nNormal şartlarda tarayıcılar default olarak <b> text/html </b> olarak responce yollarlar. \nFakat bunu kendimizde ayarlayabiliriz.</br>\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi öncelikle Responce nasıl yollanır onu inceleyelim"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "const http = require(\"http\"); // import işlemi\n\nlet server = http.createServer((req, res) => {\n\n   // Normal bir şekilde Yapımızı oluşturalım daha sonra \n\n\n});\n\nserver.listen(3000);\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "res.setHeader('Content-Type','text/html');\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Yukarıdaki gibi bir Header Ayarlayarak Content-Type belirleyelim yani gidecek olan içerik ne tip olarak gidecek HTML JSON gibi bir çok seçeneğimiz var ama genel olarak Api bilgileri Json formatında yollanır. Buna bir örnek vermek mümkün fakat ilerleyen zamanlarda daha kolay yoldan hepsini inceleyeceğiz."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "res.write(\"<html>\");\nres.write(\"<head><title>Hello World </title> </head>\");\nres.write(\"<body> <h1> Hello World !! </h1> </body> \");\nres.write(\"</html>\");\n\n//Şeklinde içeriğimizi oluşturalım."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi burada önemli bir nokta var eğer bizim geliştireceğimiz uygulama durmadan sonuç göndersin istiyorsak yani mesela bu dataları aldık fakat hala işlem devam etsin istiyorsak bu şekilde bırakabiliriz fakat; <br>\n\nBurada şöyle bir durum söz konusu olabilir biz api aracılığı ile datamızı yolladıktan sonra daha sunucuyu yormak istemeyebiliriz (Genelde Tercih Edilcen durum budur.)"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "// Bu gibi durumlarda \n\nres.end();\n\n//Ekleyerek yüklenemeyi engelleyebiliriz.\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "const http = require(\"http\"); // import işlemi\n\nlet server = http.createServer((req, res) => {\n//   console.log(req.url, req.headers, req.method);\nres.setHeader('Content-Type','text/html');\nres.write(\"<html>\");\nres.write(\"<head><title>Hello World </title> </head>\");\nres.write(\"<body> <h1> Hello World !! </h1> </body> \");\nres.write(\"</html>\");\nres.end();\n\n});\n\nserver.listen(3000);\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Kodumuzun son hali ekteki gibi olacaktır ve alacağımız çıktı\n\n<img src=\"./images/ss.png\"/>\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "var http = require('http');\n\nvar app = http.createServer(function(req,res){\n    res.setHeader('Content-Type', 'application/json');\n    res.end(JSON.stringify({ a: 1 }));\n});\napp.listen(3000);"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Yukarıda Content Type Json olan bir res yolladık . <br>\nElde edeceğimiz çıktı <br>\n<img src=\"./images/json.png\"/>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "var http = require('http');\n\nvar app = http.createServer(function(req,res){\n    res.setHeader('Content-Type', 'application/json');\n    res.end(JSON.stringify([{ a: 1 }, {b: 2 },{c: 3 }]));\n\n});\napp.listen(3000);"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "// 20221215105613<br>\n// http://localhost:3000/<br>\n\n[<br>\n  {<br>\n    \"a\": 1<br>\n  },<br>\n  {<br>\n    \"a\": 2<br>\n  },<br>\n  {<br>\n    \"a\": 3<br>\n  }<br>\n]<br>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<h2>Redirecting Resquest URL'e göre sonuç gönderme</h2> <br>\nNormal Şartlarda kullanılan sistemde her \"/\" şeklinde sonuçlar gönderdik <br>\nPeki burada url bazlı bir responce yolamak istersek ne yapacağız."
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.error",
+                            "value": {
+                                "name": "Error",
+                                "message": "Failed to generate code object, \nundefined\n^\n\nUnterminated string constant",
+                                "stack": ""
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi öncelikle ilk yapacağımız işlem url bazlı bir koşul oluşturmak <br>\nBuna göre şöyle bir mantık oluşturacağız.<br>\n\n"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.error",
+                            "value": {
+                                "name": "ReferenceError",
+                                "message": "Şimdi is not defined",
+                                "stack": "    at <Cell 39> [1, 0]\n    at <Cell 39> [13, 46]\n    at Script.runInContext (node:vm:141:12)\n    at Script.runInNewContext (node:vm:146:17)\n    at Object.runInNewContext (node:vm:306:38)\n    at C (/Users/kubilaybozak/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:113345)\n    at t.execCode (/Users/kubilaybozak/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:114312)\n    at k.<anonymous> (/Users/kubilaybozak/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:142156)\n    at k.emit (node:events:513:28)\n    at k.emit (node:domain:489:12)"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "if(url===\"herhangi bir değer\"){\n    //res değerleri\n}\nelse{\n    //başka res değerleri\n}"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi biz sunucuya gelen isteklerin içeriğine  request yani\n <b>req</b> değeri ile erişebiliyorduk.<br>\nReq kullanarak ise header link gibi değerlere ulaşabiliyorduk.<br>\n<b> req.link </b> kullanarak url'in değerine erişebiliriz."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "const url = req.url;\nconst method = req.method;"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Yukarıda belirttiğim gibi hem method değerine hemde url değerine erişelim."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                " const url = req.url;\n  const method = req.method;\n  if (url === \"/\") {\n    res.write(\"<html>\");\n    res.write(\"<head><title>Enter Message</title><head>\");\n    res.write(\n    `\n    <body>\n      <form action=\"/message\" method=\"POST\">\n          <input type=\"text\" name=\"message\">\n          <button type=\"submit\">Send</button>\n        </form>\n    </body>`  \n    );\n    res.write(\"</html>\");\n    return res.end();\n  }"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Yukarıda <b> localhost:3000</b> adresine girdiğimiz zaman ekranda nasıl bir sonuç istiyoruz onun koşulunu oluşturduk."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi Form Post Olduğu zaman bir Txt Dosyası oluşmasını ve bu dosyanın içinde Test yazılmasını isteyelim."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "if (url === \"/message\" && method === \"POST\") {\n    fs.writeFileSync(\"message.txt\", \"Test\");\n    res.statusCode = 302;\n    res.setHeader(\"Location\", \"/\");\n    return res.end();\n  }"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Burada amacımız url message olduğunda yada form post edildiği zaman bir istek  <br>\nolduğunda bir <b>Txt </b> dosyasının oluşmasını sağlamak bundan dolayı koşul oluştururken<br> \n<b> if (url === \"/message\" && method === \"POST\") { </b> şeklinde bir koşul kurguladık<br>\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<img src=\"./images/DeveloperV5-1.png\"/>\n<img src=\"./images/DeveloperV5-2.png\"/>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Yukarıda bulunan görsellerde ilk görsel henüz istek atılmadan oluşan dosyaları göstemektedir.<br>\nİkinci görsel ise istek atıldıktan sonra gelen message responsunun oluştuğunu geri dönüş işleminin yapıldığını ve anında geri döüldüğünü fark ediyoruz."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Bunun sebebi kodumuza yazmış olduğumuz "
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "res.statusCode = 302;\nres.setHeader(\"Location\", \"/\");"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi burada amacımız şu 302 kodu redirect yaptığımızı belirtir. <br>\nset.Header();   ==> burada ise redirect edilecek url belirtiliyor."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<h1>Gelen Veriyi Alma ve Kullanma </h1>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi yukarıda bize gelen verileri her istekte aynı txt dosyasını oluşturuyorduk. <br>\nBunu şimdi input alanına girilen değere göre yapmayı öğreneceğiz.<br>\nBurada bilmemiz gereken ilk durum <strong>res.data</strong> diye bir şeyin olmadığıdır."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Gelen Veriler temelde bir veri akışı olarak javascript'in özel bir yapısı ile gönderilir.  <br>\n<h4> Streams & Buffer  </h4>\n\n<b> Streams</b> <br>\nStream, büyük boyutlu bir veriyi bir yerden başka bir yere transfer ederken bütün olarak değil de parça parça transfer edilmesini sağlayan yayın ya da akış şeklinde tarif edilebilen bir kavramdır. Bu yapının işlevine en güzel örneği youtube olarak verebiliriz. İlgili platformda izlenen herhangi bir videonun tam olarak yüklenmesine gerek duyulmaksızın parça parça transfer sağlanmakta ve onlarca boyuttaki video bu şekilde bekleme olmaksızın rahatça izlenmektedir. Bizler izledikçe videonun akışı devam etmekte ve geri kalan verileride zamanla bilgisayarımıza indirilmektedir."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<b>Buffer</b>\nBasitçe parçalanmış verilerin code haline geçtiğini düşünelim burada .<br>\nÖrneğin 10mb bir text dosyamızın oldugunu düşünelim bir istek geldigi zaman tek seferde 10m dosyayı okumak ram’i yoracaktır ve isteğin bir değil birden fazla oldugunu düşünürsek örneğin 100 istek 100*10 mb şeklinde oldugunu düşünürsek ortaya biraz kaos çıkabilir. İşte bu gibi işlemler için veriyi buffer şeklinde okuyup okundukça göndermek isteyebiliriz, okuduğumuz verileri client tarafına bir socket ile beraber gönderebilir yada çeşitli işlemler yapabiliriz. Şimdi bir örnek yaparak işe koyulalım"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "const body = [];\nreq.on('data', (chunk) => {\n    console.log(\"first\",chunk);\n    body.push(chunk);\n  });"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Yukarıda belirttiğim kod bizim için bir byte okuma kısmı başlatır veriler tek tek burada okunur ve okunan verileri <br> bir Array içine atıyoruz.\nBu Array her yeni bilgi geldiğinde yada basitçe şöyle anlatayım her bir video parçası geldiğinde o parçayı işleme alan alan diyebiliriz."
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.error",
+                            "value": {
+                                "name": "ReferenceError",
+                                "message": "Yukarıda is not defined",
+                                "stack": "    at <Cell 61> [1, 0]\n    at <Cell 61> [24, 46]\n    at Script.runInContext (node:vm:141:12)\n    at Script.runInNewContext (node:vm:146:17)\n    at Object.runInNewContext (node:vm:306:38)\n    at C (/Users/kubilaybozak/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:113345)\n    at t.execCode (/Users/kubilaybozak/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:114312)\n    at k.<anonymous> (/Users/kubilaybozak/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:142156)\n    at k.emit (node:events:513:28)\n    at k.emit (node:domain:489:12)"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "req.on('end', () => {\n    const parsedBody = Buffer.concat(body).toString();\n    console.log(parsedBody);\n    const message = parsedBody.split('=')[1];\n    console.log(message);\n    fs.writeFileSync('message.txt', message);\n  });"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Yukarıda belirttiğim kod bizim için verinin stringe convert edildiği işlemelerin gerçekleştiği alan <br>\nilgili buffer string’e çevirerek metinlerimizi görebiliriz. Tam bu noktada veri okunurken örnek olması açısından okunan her veriyi socket ile istemciye gönderip ekrana basabiliriz.\n\n"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.error",
+                            "value": {
+                                "name": "ReferenceError",
+                                "message": "Yukarıda is not defined",
+                                "stack": "    at <Cell 61> [1, 0]\n    at <Cell 61> [24, 46]\n    at Script.runInContext (node:vm:141:12)\n    at Script.runInNewContext (node:vm:146:17)\n    at Object.runInNewContext (node:vm:306:38)\n    at C (/Users/kubilaybozak/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:113345)\n    at t.execCode (/Users/kubilaybozak/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:114312)\n    at k.<anonymous> (/Users/kubilaybozak/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:142156)\n    at k.emit (node:events:513:28)\n    at k.emit (node:domain:489:12)"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi buraya kadar verimizi okuduk fakat verinin yüzde kaçını okuduk ki ? Diye soru sordugumuzda ise aşağıdaki gibi küçük bir işlem yapıyoruz. <h5>Ekstra </h5>\nhttps://yasinefemdalkilic.medium.com/nodejs-stream-a77c7df49907\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "const fs = require('fs')\nconst stream = fs.createReadStream(\"test.txt\")\nfs.stat(\"test.txt\", (err, data) => {\nconsole.log('size', data.size)\nconst size = data.size;\nlet chunkSize = 0;\nstream.on('data', (chunk) => {\n//console.log('okunan byte', chunk.length)\n//console.log('chunk', chunk.toString())\nchunkSize += chunk.length;\nconsole.log('percent', Math.round(chunkSize * 100 / size))\n})})\nstream.on('end', () => {\nconsole.log('veri okuma işlemi bitti')\n})"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<h4>Node JS'nin arka planı</h4>\n"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.error",
+                            "value": {
+                                "name": "Error",
+                                "message": "Failed to generate code object, \nundefined\n^\n\nUnterminated string constant",
+                                "stack": ""
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "NodeJS single bir Thread kullanır <br>\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Thread nedir ? <br>\nBir process’in birden fazla işi aynı anda yapmasını sağlayan yapılara thread denir. Bir process bünyesinde bir ya da birden fazla thread barındırabilir. Thread’ler aynı anda sadece tek bir iş yapabilir. Kısaca N adet thread N adet iş yapabilir diyebiliriz. Thread’ler aynı zamanda ligth-weight process (hafif siklet proses) olarak da nitelendirilebilir. Thread kavramı Türkçe’deki en uygun karşılığı iş parçacıklarıdır."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Multi-threading ve parallel programming kavramlarına da yeri gelmişken birer cümle ile yer verelim.\nBir process içerisinde birden fazla thread çalıştırılmasına multi-threading diyoruz.\n\nThread’ler çok çekirdekli işlemcilerde farklı çekirdeklerde eş zamanlı olarak çalıştırılabilirler. Buna yaklaşıma da parallel programming diyoruz"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        }
+    ]
+}
