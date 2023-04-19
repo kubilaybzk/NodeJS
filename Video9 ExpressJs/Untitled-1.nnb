@@ -1,0 +1,248 @@
+{
+    "cells": [
+        {
+            "language": "markdown",
+            "source": [
+                "<b> npm i --save express</b> <br>\nyüklememizi yapalım."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi express sayesinde eskiden kullanmış olduğumuz bütün app.js içindeki düzenleri rooting yapılarını ortadan kaldırabiliriz.<br>\nŞimdi kodumuz;\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "const http = require(\"http\");\nconst requestHandler = require('./routes');\n\n\nconst server = http.createServer(requestHandler);\nserver.listen(3000);\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "const http = require(\"http\");\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "//Express js'i ekleyelim.\nconst http = require(\"http\");\nconst express = require('express')\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "//Express js'i ekleyelim.\nconst http = require(\"http\");\nconst express = require(\"express\");\n//Daha sonra  app adında bir değişken tanımlayıp buna express fonksiyonunu assign edelim.\nconst app = express();\n//Daha sonra  app adında bir değişken tanımlayıp buna express fonksiyonunu assign edelim ve şimdi ise http ile serverımızı ayağa kaldıralım .\nhttp.createServer(app);\nserver.listen(3000);\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "yukarıda basit bir express projesi oluşturduk ve ayağa kaldırdık. <br>\nşimdi projemizi çalıştırdığımız zaman bize herhangi bir şey geri dödürmeyecek çünkü biz herhangi bir req res işlemi gerçekleştirmedik.\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "npm start diyerek bakalım."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<h1> MiddleWare  (Ara katman)</h1>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<img src=\"./image/1.jpg\" width=\"500\" height=\"300\"/>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Expressjs tamamen ara katman yazılımı ile ilgilidir yukarıda  bir diyagram\n\ngörüyorsunuz, sonuçta ara katman yazılımı, gelen bir isteğin expressjs tarafından otomatik olarak bir dizi\n\nişlevden geçirilmesi anlamına gelir, bu nedenle yalnızca bir istek işleyicisine sahip olmak yerine, aslında bir yanıt gönderene kadar isteğin\n\ngeçeceği birden fazla işleve bağlanma olanağınız olacaktır.\n\nBu sayede her şeyi yapan büyük bir kod bloğuna sahip olmak  yerine , aslında birden fazla parçaya bölmeye olanak sağlayabilir."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Midleware işemleri <b> app = express();</b> <br>\nişleminden sonra <b> server = http.createServer(); </b> <br>'dan sonra konulması gerekir."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "const http = require(\"http\");\nconst express = require(\"express\");\n\nconst app = express();\n//Middleware oluşturmak için şeklinde bir tanım yapmalıyız \n// bu tanımı yaparken req res ve next adında 3 adet argüman alan bir fonksiyon alması gerektiğini unutmamalıyız.\n\napp.use((req,res,next)=>{\n    console.log(\"Selam burası ilk middleware.\");\n});\n\nconst server=http.createServer(app);\nserver.listen(3000);"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Yukarıda bulunan  kodun çıktısı  <br>\n```python\n[nodemon] restarting due to changes...\n[nodemon] starting `node app.js`\n[nodemon] restarting due to changes...\n[nodemon] starting `node app.js`\nSelam burası ilk middleware.\n```"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi middlelware'ımızı kopyalayalım ve sonucu inceleyelim.\n\n```python\napp.use((req,res,next)=>{\n    console.log(\"Selam burası ilk middleware.\");\n});\n```"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "const http = require(\"http\");\nconst express = require(\"express\");\n\nconst app = express();\n//Middleware oluşturmak için şeklinde bir tanım yapmalıyız \n// bu tanımı yaparken req res ve next adında 3 adet argüman alan bir fonksiyon alması gerektiğini unutmamalıyız.\n\napp.use((req,res,next)=>{\n    console.log(\"Selam burası ilk middleware.\");\n});\n\napp.use((req,res,next)=>{\n    console.log(\"Selam burası ikinci middleware.\");\n});\n\nconst server=http.createServer(app);\nserver.listen(3000);"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Çıktımız \n```python\nSelam burası ilk middleware.\n[nodemon] restarting due to changes...\n[nodemon] starting `node app.js`\n[nodemon] restarting due to changes...\n[nodemon] starting `node app.js`\nSelam burası ilk middleware.\n```"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Gördüğümüz gibi ikinci middleware yazısı console üzerinde malesef çıkmadı. <br>\nBunun sebebi şu biz ilk middleware çalıştıktan sonra ikinci middleware'e geçme izni vermedik.\nbunu 3. argüman olan <b>next </b> ile çözeceğiz."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "const http = require(\"http\");\nconst express = require(\"express\");\n\nconst app = express();\n//Middleware oluşturmak için şeklinde bir tanım yapmalıyız \n// bu tanımı yaparken req res ve next adında 3 adet argüman alan bir fonksiyon alması gerektiğini unutmamalıyız.\n\napp.use((req,res,next)=>{\n    console.log(\"Selam burası ilk middleware.\");\n    next();\n});\n\napp.use((req,res,next)=>{\n    console.log(\"Selam burası ikinci middleware.\");\n});\n\nconst server=http.createServer(app);\nserver.listen(3000);"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "```python\n[nodemon] restarting due to changes...\n[nodemon] starting `node app.js`\nSelam burası ilk middleware.\nSelam burası ikinci middleware.\n```"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Burada ikinci middleware çıktısınıda başarılı bir şekilde aldık.\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<h3>Yukarıda aşağı bir sıralama ile middlewarelar çalışır !!</h3>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<h1> Middleware nasıl çalışır ? </h1>\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi söyle bir örnek üzerinde çalışamalar yapalım . <br>\n\n```javascript\nconst http = require(\"http\");\nconst express = require(\"express\");\n\nconst app = express();\n//Middleware oluşturmak için şeklinde bir tanım yapmalıyız \n// bu tanımı yaparken req res ve next adında 3 adet argüman alan bir fonksiyon alması gerektiğini unutmamalıyız.\n\napp.use((req,res,next)=>{\n    console.log(\"Selam burası ilk middleware.\");\n    next();\n});\n\napp.use((req,res,next)=>{\n    console.log(\"Selam burası ikinci middleware.\");\n    res.send(\"<h1>Selamlar burası ikinci middleware </h1>\")\n});\n\nconst server=http.createServer(app);\nserver.listen(3000);\n```"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Yukarıda bulunan kod içinde ikinci middleware içinde bir fonksiyon kullandık.<br>\n<b> res.send();</b>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Bu fonksiyon bizim responce yollammamız için expressjs içinde tanımlı olan  özel bir fonksiyondur bu fonksiyon ile html,\njson , text yollayabiliriz. \n\n<img src=\"./image/html.jpg\"/>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "const http = require(\"http\");\nconst express = require(\"express\");\n\nconst app = express();\n//Middleware oluşturmak için şeklinde bir tanım yapmalıyız \n// bu tanımı yaparken req res ve next adında 3 adet argüman alan bir fonksiyon alması gerektiğini unutmamalıyız.\n\napp.use((req,res,next)=>{\n    console.log(\"Selam burası ilk middleware.\");\n    next();\n});\n\napp.use((req,res,next)=>{\n    console.log(\"Selam burası ikinci middleware.\");\n    res.send({\"Title\":\"Selam\"})\n});\n\nconst server=http.createServer(app);\nserver.listen(3000);"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<img src=\"./image/json.jpg\"/>"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.error",
+                            "value": {
+                                "name": "Error",
+                                "message": "Failed to generate code object, \nundefined\n                      ^\n\nUnexpected token ';'",
+                                "stack": ""
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "<h1>Handling Different Routes (Farklı Route yapılarını yakalama) </h1>"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        }
+    ]
+}

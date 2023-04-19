@@ -262,7 +262,7 @@
         {
             "language": "markdown",
             "source": [
-                "<h2>Redirecting Resquest URL'e göre sonuç gönderme</h2> <br>\nNormal Şartlarda kullanılan sistemde her \"/\" şeklinde sonuçlar gönderdik <br>\nPeki burada url bazlı bir responce yolamak istersek ne yapacağız."
+                "<h2>Redirecting Resquest URL'e göre sonuç gönderme</h2> <br>\nNormal Şartlarda kullanılan sistemde hep \"/\" şeklinde sonuçlar gönderdik <br>\nPeki burada url bazlı bir responce yolamak istersek ne yapacağız."
             ],
             "outputs": [
                 {

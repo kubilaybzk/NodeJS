@@ -1,0 +1,32 @@
+{
+    "cells": [
+        {
+            "language": "markdown",
+            "source": [
+                "Şimdi ise npm kullanarak nodejs projelerinde durmadan node app.js gibi durumlardan kullanmayı öğrenelim.<br>\nÖncelikle npm kullanabilmek için nextjs reactjs tarafında olduğu gibi bir npm paket yöneticisini yönetebileceğimiz dosların olması gerekir.<br>\nBu bahsettiğim tarz framworklerde otomatik olarak gelen bir pakettir ,<br>\nFakat bizim projelerimizde biz şimdiye kadar bunu hiç kullanmadık ve sıfırdan proje geliştirdiğimiz için ekli değil. <br>\nYapmamız gereken <b> npm init</b> komutunu çalıştırmak.\n\n`Bize paket adı ,\nversion: (1.0.0) \ndescription: \nentry point: (app.js) \ntest command: \ngit repository: \nkeywords: \nauthor: \nlicense: (ISC) \n`\n\ngibi şeyler sorabilir bunları doldurabiliriz yada boş bırakabiliriz. <br>\nŞimdi bir start komutu yazalım. <br>\n\n\n> {\n  \"name\": \"backendlessons\",<br>\n  \"version\": \"1.0.0\",<br>\n  \"description\": \"\",<br>\n  \"main\": \"app.js\",<br>\n  \"scripts\": {<br>\n    \"test\": \"echo \\\"Error: no test specified\\\" && exit 1\",<br>\n    \"start\": \"node app.js\"<br>\n  },<br>\n  \"author\": \"\",<br>\n  \"license\": \"ISC\"<br>\n}\n\n\n\n\n"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "Yukarıda gözüktüğü gibi <h1>\"start\":\"node app.js\" </h1>\nkomutu sayesinde artık npm start yazdığımız zaman projemiz çalışmaya başlayacak."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                ""
+            ],
+            "outputs": []
+        }
+    ]
+}
